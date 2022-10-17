@@ -1,0 +1,26 @@
+{
+  "name": "gamaacademy-group06-api-node-express",
+  "version": "1.0.0",
+  "description": "Desafio Nivel Básico de Criação de uma API com Node.js e Express do Curso Dev FullStack javascript Hacker da Gama Academy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/efojunior25/GamaAcademy-Group06-API-node-express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/efojunior25/GamaAcademy-Group06-API-node-express/issues"
+  },
+  "homepage": "https://github.com/efojunior25/GamaAcademy-Group06-API-node-express#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
