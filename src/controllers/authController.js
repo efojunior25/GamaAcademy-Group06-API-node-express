@@ -23,7 +23,7 @@ const AuthController = {
 
     const token = jwt.sign(
       {
-        id: usuario.id,
+        id: usuario.id_psicologo,
         email: usuario.email,
         nome: usuario.nome,
         userType: 'user'
