@@ -28,7 +28,7 @@ routes.delete("/psicologo/:id", psicologosController.deletePsicologo);
 
 // rotas atendimento
 routes.get("/atendimentos", atendimentosController.listAtendimentos);
-routes.get("/atendimento/:id", byIdValidation, atendimentosController.byIdAtendimento);
+routes.get("/atendimento/:id", atendimentosController.byIdAtendimento);
 routes.post("/atendimento", atendimentosController.createAtendimento);
 
 //rotas de login
