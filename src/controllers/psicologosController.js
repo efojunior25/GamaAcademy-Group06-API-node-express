@@ -19,14 +19,15 @@ const psicologosController = {
         try {
 
             const {id} = req.params;
+            console.log(id)
                       
             const psicologo = await Psicologos.findOne({
                 where: {
                     id,
                 },
-                attributes:["id", "nome", "email", "apresentacao"]
+                attributes:["id_psicologo", "nome", "email", "apresentacao"]
+                
             });
-
 
             if (!psicologo) {
                 return res.status(404).json(ERRORS.PSICOLOGOS.ID)                                
@@ -43,7 +44,7 @@ const psicologosController = {
         try {
             const { nome, email, senha, apresentacao } = req.body;
 
-            const newSenha = bcrypt.hashSync(senha, 10);
+            const newSenha = bcrypt.hashSync(senha, 6);
 
             const newPsicologo = await Psicologos.create({
                 nome,
@@ -76,7 +77,7 @@ const psicologosController = {
                 },
                 {
                     where: {
-                    id,
+                    ido,
                     }
                 }
             );

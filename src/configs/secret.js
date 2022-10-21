@@ -1,3 +1,3 @@
 module.exports = {
-  key: "gama-2022",
+  key: "lavie-2022",
 };

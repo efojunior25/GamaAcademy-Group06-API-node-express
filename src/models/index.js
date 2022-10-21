@@ -1,30 +1,27 @@
-const CategoriaProduto = require("./CategoriaProduto");
-const Categorias = require("./Categorias");
-const Fabricantes = require("./Fabricantes");
-const Produtos = require("./Produtos");
-const Usuarios = require("./Usuarios");
-// teste
-Produtos.belongsTo(Fabricantes, {
-  foreignKey: "fabricante_id",
+const Psicologos = require("./Psicologos");
+const Pacientes = require("./Pacientes")
+const Atendimentos = require("./Atendimentos");
+
+// Relacao Psi com Atendimentos
+Psicologos.hasOne(Atendimentos, {
+  foreignKey: "id_psicologo",
 });
 
-Fabricantes.hasMany(Produtos, {
-  foreignKey: "fabricante_id",
+Atendimentos.belongsTo(Psicologos, {
+  foreignKey: "num_atendimento",
 });
 
-Produtos.belongsToMany(Categorias, {
-  foreignKey: "produto_id",
-  through: CategoriaProduto,
+// Relacao Pacientes com Atendimentos
+Pacientes.hasOne(Atendimentos, {
+  foreignKey: "id_paciente",
 });
 
-Categorias.belongsToMany(Produtos, {
-  foreignKey: "categoria_id",
-  through: CategoriaProduto,
+Atendimentos.belongsTo(Pacientes, {
+  foreignKey: "num_atendimento",
 });
 
 module.exports = {
-  Fabricantes,
-  Produtos,
-  Categorias,
-  Usuarios,
+  Psicologos,
+  Pacientes,
+  Atendimentos,
 };
