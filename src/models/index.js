@@ -3,7 +3,7 @@ const Categorias = require("./Categorias");
 const Fabricantes = require("./Fabricantes");
 const Produtos = require("./Produtos");
 const Usuarios = require("./Usuarios");
-
+// teste
 Produtos.belongsTo(Fabricantes, {
   foreignKey: "fabricante_id",
 });
