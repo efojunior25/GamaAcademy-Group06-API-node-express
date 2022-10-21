@@ -8,7 +8,7 @@ const AtendimentosController = {
     
             res.json(listarAtendimentos);            
         } catch (error) {
-            console.log(error);
+            res.status(400).json({error});
             
         }
      },
@@ -18,12 +18,7 @@ const AtendimentosController = {
 
             const {id} = req.params;
                       
-            const atendimento = await Atendimentos.findOne({
-                where: {
-                    id,
-                },
-                attributes:["num_atendimento", "data_atendimento", "observacao", "paciente_id", "psicologo_id"]
-            });
+            const atendimento = await Atendimentos.findByPk(id)
 
 
             if (!atendimento) {
@@ -32,7 +27,7 @@ const AtendimentosController = {
 
             res.status(200).json(atendimento)
         } catch (error) {
-            console.log(error)
+            res.status(400).json({error})
         }              
         
      },
@@ -50,7 +45,7 @@ const AtendimentosController = {
 
            res.status(201).json(newAtendimento)
         } catch (error) { 
-            console.log(error)            
+            res.status(400).json({message: "Faltou algum campo ser preenchido"})            
         }
      },
         
