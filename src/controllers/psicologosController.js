@@ -1,8 +1,6 @@
 const { Psicologos } = require("../models");
 const bcrypt = require("bcryptjs");
 
-
-
 const psicologosController = {
      async listPsicologos(req, res) {
         try {
@@ -19,15 +17,8 @@ const psicologosController = {
         try {
 
             const {id} = req.params;
-            console.log(id)
                       
-            const psicologo = await Psicologos.findOne({
-                where: {
-                    id,
-                },
-                attributes:["id_psicologo", "nome", "email", "apresentacao"]
-                
-            });
+            const psicologo = await Psicologos.findByPk(id)
 
             if (!psicologo) {
                 return res.status(404).json(ERRORS.PSICOLOGOS.ID)                                
@@ -60,69 +51,55 @@ const psicologosController = {
         }
      },
 
-     async updatePsicologo(req,res) {
+     async updatePsicologo(req, res) {
         try {
-            const { id } = req.params;
-            const { nome, email, senha, apresentação } = req.body;
+          const { id } = req.params;
+          const { senha } = req.body;
+          const fieldsloadUpdate = {};
+    
+          Object.assign(fieldsloadUpdate, req.body);
+    
+          //verifica a senha foi informada no body, alterada ou não. se alterar refaz a criptografia
+          if (senha) {
             const newSenha = bcrypt.hashSync(senha, 10);
-            
-
-            await Psicologos.update(
-                {
-                    nome,
-                    email,
-                    senha: newSenha,
-                    apresentação,
-
-                },
-                {
-                    where: {
-                    ido,
-                    }
-                }
-            );
-
-            const psicologo = await Psicologos.findByPk(id);
-
-            if (!psicologo) {
-                res.status(400).json(ERRORS.PSICOLOGOS.ID)                                
-            };
-
-            res.json(psicologo)
+            Object.assign(fieldsloadUpdate, { senha: newSenha });
+          }
+    
+          await Psicologos.update(fieldsloadUpdate, {
+            where: {
+              id_psicologo: id,
+            },
+          }
+          );
+          //devolvendo a atualização
+          const psicologo = await Psicologos.findByPk(id);
+          return res.status(200).json(psicologo);
+    
         } catch (error) {
-            
+          return res.status(500).json(ERRORS.PSICOLOGOS.ID)
         }
      },
 
-     async deletePsicologo(req,res) {        
+     async deletePsicologo(req,res,next) {        
         try {
-            const {id} = await req.params;
+            // const { id } = await req.params;
 
-            const psicologo = await Psicologos.findOne({
+            const psicologo = await Psicologos.destroy({
                 where: {
-                    id,
+                    id_psicologo: req.params.id
                 }
             });
 
             if (!psicologo) {
-                res.status(404).json(ERRORS.PSICOLOGOS.ID)                                
+                res.status(404).json({message: "Id não encontrado"})                                
             };
 
-            await Psicologos.destroy({
-                where:{
-                 id,
-                },
-            });
-
-            
-            res.sendStatus(204)
+            res.status(204).json({message: "Psicólogo Excluido"})
             
         } catch (error) {
-            console.log(error)          
+           next(error)          
         }
      },
-
-     
         
 };
 

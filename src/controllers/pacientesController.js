@@ -9,6 +9,24 @@ const pacientesController = {
     res.json(listaDePacientes);
   },
 
+  async byIdPaciente(req, res) {
+    try {
+
+        const  id  = req.params.id;
+                  
+        const paciente = await Pacientes.findByPk(id)
+
+        if (!paciente) {
+            return res.status(404).json({message: "Id não encontrado"})                                
+        };
+
+        res.status(200).json(paciente)
+    } catch (error) {
+        console.log(error)
+    }              
+    
+ },
+
   async cadastrarPaciente(req,res) {
     try {
         const { nome, email, idade} = req.body;
@@ -26,43 +44,50 @@ const pacientesController = {
     }
  },
 
-  async deletarPaciente(req, res) {
+  async deletarPaciente(req,res,next) {        
     try {
-      const { id } = req.params;
+        // const { id } = await req.params;
 
-      await Pacientes.destro({
-        where: {
-          id,
-        },
-      });
+        const paciente = await Pacientes.destroy({
+            where: {
+                id_paciente: req.params.id
+            }
+        });
 
-      res.status(204);
+        if (!paciente) {
+            res.status(404).json({message: "Id não encontrado"})                                
+        };
+
+        res.status(200).json({message: "Paciente Excluido"})
+        
     } catch (error) {
-      return res.status(500).json("Ocoreu algum problema ao deletar");
+       next(error)          
     }
-  },
+ },
 
   async atualizarPaciente(req, res) {
-    const { id } = req.params;
-    const { nome, email, idade } = req.body;
+    try {
+      const { id } = req.params;
+      const fieldsloadUpdate = {};
 
-    if (!id) return res.status(400).json("id não enviado");
+      Object.assign(fieldsloadUpdate, req.body);
 
-    const pacienteAtualizado = await Pacientes.update(
-      {
-        nome,
-        email,
-        idade,
-      },
-      {
+      
+
+      await Pacientes.update(fieldsloadUpdate, {
         where: {
-          id,
+          id_paciente: id,
         },
       }
-    );
+      );
+      //devolvendo a atualização
+      const paciente = await Pacientes.findByPk(id);
+      return res.status(200).json(paciente);
 
-    res.json("Paciente Atualizado com sucesso");
-  },
+    } catch (error) {
+      return res.status(500).json(ERRORS.PACIENTES.ID)
+    }
+ },
 };
 
 module.exports = pacientesController;

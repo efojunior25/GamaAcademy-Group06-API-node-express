@@ -1,8 +1,6 @@
 const { Atendimentos } = require("../models");
 const bcrypt = require("bcryptjs");
 
-
-
 const AtendimentosController = {
      async listAtendimentos(req, res) {
         try {
@@ -29,7 +27,7 @@ const AtendimentosController = {
 
 
             if (!atendimento) {
-                return res.status(404).json(ERRORS.ATENDIMENTOS.ID)                                
+                return res.status(404).json({message: "Id não encontrado"})                                
             };
 
             res.status(200).json(atendimento)
@@ -41,10 +39,9 @@ const AtendimentosController = {
 
      async createAtendimento(req,res) {
         try {
-            const {num_atendimento, data_atendimento, observacao, paciente_id, psicologo_id } = req.body;
+            const { data_atendimento, observacao, paciente_id, psicologo_id } = req.body;
 
             const newAtendimento = await Atendimentos.create({
-                num_atendimento, 
                 data_atendimento, 
                 observacao,
                 paciente_id, 
