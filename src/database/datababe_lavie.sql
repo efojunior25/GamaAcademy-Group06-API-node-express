@@ -82,7 +82,7 @@ CREATE TABLE `psicologo` (
   `id_psicologo` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `email` varchar(70) NOT NULL,
-  `senha` varchar(20) NOT NULL,
+  `senha` varchar(250) NOT NULL,
   `apresentacao` text,
   PRIMARY KEY (`id_psicologo`),
   UNIQUE KEY `email` (`email`)
